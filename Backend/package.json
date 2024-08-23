@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "drizzle:generate": "drizzle-kit generate --config=drizzle.config.js"
+  },
+  "author": "Zorigoo",
+  "license": "ISC",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.33.0",
+    "express": "^4.19.2",
+    "node": "^22.6.0",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.24.0",
+    "nodemon": "^3.1.4"
+  }
+}

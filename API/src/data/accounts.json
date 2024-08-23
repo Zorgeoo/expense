@@ -1,0 +1,162 @@
+[
+  {
+    "type": "exp",
+    "amount": "12",
+    "category": {
+      "name": "1212121",
+      "icon": "FaApple",
+      "color": "#AE01FF",
+      "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475",
+      "id": "0860915f-62a3-491c-a1d9-a05a76a88705"
+    },
+    "date": "2024-08-09",
+    "time": "12:12",
+    "note": "",
+    "id": "eb0d4c9e-c0a3-4ae1-805b-ccc47e2edde4",
+    "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475"
+  },
+  {
+    "type": "exp",
+    "amount": "2121",
+    "category": {
+      "name": "1212121",
+      "icon": "FaApple",
+      "color": "#AE01FF",
+      "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475",
+      "id": "0860915f-62a3-491c-a1d9-a05a76a88705"
+    },
+    "date": "2024-08-21",
+    "time": "12:12",
+    "note": "",
+    "id": "012a3744-d451-446c-99a9-40fd70f84360",
+    "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475"
+  },
+  {
+    "type": "exp",
+    "amount": "1000",
+    "category": {
+      "name": "Tech",
+      "icon": "FaApple",
+      "color": "#AE01FF",
+      "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+      "id": "d2fa16b0-c28c-4247-ba01-784de9301b52"
+    },
+    "date": "2024-08-19",
+    "time": "12:34",
+    "note": "",
+    "id": "070d1505-be4f-4dae-afe5-fd153fd41dc6",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117"
+  },
+  {
+    "type": "exp",
+    "amount": "1200",
+    "category": {
+      "name": "Transport",
+      "icon": "FaBus",
+      "color": "#FF0101",
+      "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475",
+      "id": "f2737417-ac8a-4af3-ba7b-634d7ee09d17"
+    },
+    "date": "2024-08-19",
+    "time": "22:12",
+    "note": "",
+    "id": "f39f070d-1da1-40bc-98a5-2714e11cd82e",
+    "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475"
+  },
+  {
+    "type": "inc",
+    "amount": "1500",
+    "category": {
+      "name": "Gaming",
+      "icon": "FaBattleNet",
+      "color": "#41CC00",
+      "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+      "id": "e05dbfb4-9f43-4795-916b-ed095dab7e5a"
+    },
+    "date": "2024-08-19",
+    "time": "12:12",
+    "note": "",
+    "id": "a5ada507-9539-41a2-8b84-41706bc2dd18",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117"
+  },
+  {
+    "type": "exp",
+    "amount": "1200",
+    "category": {
+      "name": "Food",
+      "icon": "FaAmazonPay",
+      "color": "#FF7B01",
+      "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475",
+      "id": "6dafd215-a990-4bf8-9545-6a27a3d3678d"
+    },
+    "date": "2024-08-19",
+    "time": "12:12",
+    "note": "",
+    "id": "8adcfc5a-52bd-47ec-85ad-74ee96c67a0f",
+    "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475"
+  },
+  {
+    "type": "inc",
+    "amount": "1500",
+    "category": {
+      "name": "Sport",
+      "icon": "FaVolleyballBall",
+      "color": "#0166FF",
+      "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+      "id": "5bc827ec-0f5c-42fc-a0f4-208dbf79ef07"
+    },
+    "date": "2121-12-12",
+    "time": "12:12",
+    "note": "",
+    "id": "b0e63dab-f10e-4351-b32b-c4f1fdb72f8f",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117"
+  },
+  {
+    "type": "exp",
+    "amount": "1200",
+    "category": {
+      "name": "Shopping",
+      "icon": "FaAmazonPay",
+      "color": "#0166FF",
+      "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+      "id": "87c90495-19e4-4a2d-b16d-c36150e908e1"
+    },
+    "date": "2024-08-19",
+    "time": "12:12",
+    "note": "",
+    "id": "516df024-64e7-491c-a7ff-c95baf284855",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117"
+  },
+  {
+    "type": "exp",
+    "amount": "1200",
+    "category": {
+      "name": "Gaming",
+      "icon": "FaBattleNet",
+      "color": "#41CC00",
+      "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+      "id": "e05dbfb4-9f43-4795-916b-ed095dab7e5a"
+    },
+    "date": "2024-08-01",
+    "time": "12:12",
+    "note": "",
+    "id": "012e331e-b9a7-455f-8d53-20cdb0e11792",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117"
+  },
+  {
+    "type": "exp",
+    "amount": "130",
+    "category": {
+      "name": "Gaming",
+      "icon": "FaBattleNet",
+      "color": "#41CC00",
+      "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+      "id": "e05dbfb4-9f43-4795-916b-ed095dab7e5a"
+    },
+    "date": "2024-08-21",
+    "time": "12:12",
+    "note": "",
+    "id": "74c621d1-6186-4a6e-b044-fb61ca750c19",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117"
+  }
+]

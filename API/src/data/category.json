@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Tech",
+    "icon": "FaApple",
+    "color": "#AE01FF",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+    "id": "d2fa16b0-c28c-4247-ba01-784de9301b52"
+  },
+  {
+    "name": "Transport",
+    "icon": "FaBus",
+    "color": "#FF0101",
+    "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475",
+    "id": "f2737417-ac8a-4af3-ba7b-634d7ee09d17"
+  },
+  {
+    "name": "Gaming",
+    "icon": "FaBattleNet",
+    "color": "#41CC00",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+    "id": "e05dbfb4-9f43-4795-916b-ed095dab7e5a"
+  },
+  {
+    "name": "Food",
+    "icon": "FaAmazonPay",
+    "color": "#FF7B01",
+    "userId": "3a0c2142-2077-4e2f-ac9e-3ac6728b4475",
+    "id": "6dafd215-a990-4bf8-9545-6a27a3d3678d"
+  },
+  {
+    "name": "Sport",
+    "icon": "FaVolleyballBall",
+    "color": "#0166FF",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+    "id": "5bc827ec-0f5c-42fc-a0f4-208dbf79ef07"
+  },
+  {
+    "name": "Shopping",
+    "icon": "FaAmazonPay",
+    "color": "#0166FF",
+    "userId": "e9586484-5cf4-4c05-b064-d7d3e4e90117",
+    "id": "87c90495-19e4-4a2d-b16d-c36150e908e1"
+  }
+]
