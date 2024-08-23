@@ -1,8 +1,12 @@
-import { createUser, getUsers } from "../controllers/users.controller.js";
+import {
+  createUser,
+  getMe,
+  getUsers,
+} from "../controllers/users.controller.js";
 import { Router } from "express";
 
 const usersRouter = Router();
 
-usersRouter.get("/", getUsers).post("/", createUser);
+usersRouter.get("/", getUsers).post("/", createUser).get("/me", getMe);
 
 export { usersRouter };

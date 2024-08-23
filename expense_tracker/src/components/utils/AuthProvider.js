@@ -53,6 +53,7 @@ export const AuthProvider = ({ children }) => {
       toast.error("LogOut hiihed aldaa garlaa");
     }
   };
+
   //Bagsh
   useEffect(() => {
     const loadUser = async () => {

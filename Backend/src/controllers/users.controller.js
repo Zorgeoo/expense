@@ -11,6 +11,18 @@ export const getUsers = async (req, res) => {
   res.json(users);
 };
 
+export const getMe = async (req, res) => {
+  //User uuriin medeellee avah function
+  try {
+    const user = req.user;
+
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export const createUser = async (req, res) => {
   const { name, email, password } = req.body;
 

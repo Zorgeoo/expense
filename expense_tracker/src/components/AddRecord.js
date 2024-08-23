@@ -53,7 +53,7 @@ export const AddRecord = ({ title, addClick }) => {
 
   const createCategory = async () => {
     const response = await axios.post(
-      "http://localhost:3007/categories",
+      "http://localhost:3003/categories",
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

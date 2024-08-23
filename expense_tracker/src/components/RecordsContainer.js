@@ -61,7 +61,7 @@ export const RecordContainer = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios?.get("http://localhost:3007/accounts", {
+      const response = await axios?.get("http://localhost:3003/posts", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -73,7 +73,7 @@ export const RecordContainer = () => {
 
   const createAccount = async () => {
     const response = await axios.post(
-      "http://localhost:3007/accounts",
+      "http://localhost:3003/posts",
       transInfo,
       {
         headers: {
@@ -85,21 +85,18 @@ export const RecordContainer = () => {
   };
 
   const deleteAccount = async (id) => {
-    const response = await axios?.delete(
-      `http://localhost:3007/accounts/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios?.delete(`http://localhost:3003/posts${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     setAccounts(accounts.filter((account) => account.id !== id));
   };
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get("http://localhost:3007/categories/", {
+        const response = await axios.get("http://localhost:3003/categories/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -112,7 +109,7 @@ export const RecordContainer = () => {
 
   const createCategory = async () => {
     const response = await axios?.post(
-      "http://localhost:3007/categories",
+      "http://localhost:3003/categories",
       categoriez,
       {
         headers: {
@@ -125,7 +122,7 @@ export const RecordContainer = () => {
 
   const deleteCategory = async (id) => {
     const response = await axios?.delete(
-      `http://localhost:3007/categories/${id}`,
+      `http://localhost:3003/categories/${id}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -170,19 +167,19 @@ export const RecordContainer = () => {
     );
   };
 
-  const filterAccountsByCategory = (accounts, selectedCategories) => {
-    return accounts
-      .filter((account) => !selectedCategories.includes(account.category.id))
-      .sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-        return dateB - dateA; // Ascending order; use dateB - dateA for descending order
-      });
-  };
+  // const filterAccountsByCategory = (accounts, selectedCategories) => {
+  //   return accounts
+  //     .filter((account) => !selectedCategories.includes(account.category.id))
+  //     .sort((a, b) => {
+  //       const dateA = new Date(a.date);
+  //       const dateB = new Date(b.date);
+  //       return dateB - dateA; // Ascending order; use dateB - dateA for descending order
+  //     });
+  // };
 
-  useEffect(() => {
-    setFilteredAccounts(filterAccountsByCategory(accounts, selectedCategories));
-  }, [accounts, selectedCategories]);
+  // useEffect(() => {
+  //   setFilteredAccounts(filterAccountsByCategory(accounts, selectedCategories));
+  // }, [accounts, selectedCategories]);
 
   return (
     <div className="bg-[#f6f6f6] h-svh py-6">

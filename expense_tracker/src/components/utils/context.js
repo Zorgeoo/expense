@@ -28,7 +28,7 @@ export const TransactionContextProvider = ({ children }) => {
     note: "",
   });
   const getData = async () => {
-    const response = await axios?.get("http://localhost:3007/accounts", {
+    const response = await axios?.get("http://localhost:3003/posts", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
