@@ -4,7 +4,7 @@ import { users } from "../database/schema.js";
 export const getUsers = async (req, res) => {
   const users = await db.query.users.findMany({
     with: {
-      posts: true,
+      records: true,
     },
   });
 

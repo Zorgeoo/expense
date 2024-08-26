@@ -10,7 +10,7 @@ export const Apii = () => {
   const [amount, setAmount] = useState("");
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get("http://localhost:3003/posts");
+      const response = await axios.get("http://localhost:3003/records");
       setAccounts(response.data);
     };
     getData();
@@ -18,18 +18,18 @@ export const Apii = () => {
   const createAccount = async () => {
     const newAccount = { title, amount };
     const response = await axios.post(
-      "http://localhost:3003/posts",
+      "http://localhost:3003/records",
       newAccount
     );
     setAccounts([...accounts, response.data]);
   };
 
   const deleteAccount = async (id) => {
-    const response = await axios.delete(`http://localhost:3003/posts/${id}`);
+    const response = await axios.delete(`http://localhost:3003/records/${id}`);
     setAccounts(accounts.filter((account) => account.id !== id));
   };
   const deleteAllAccount = async () => {
-    const response = await axios.delete("http://localhost:3003/posts/");
+    const response = await axios.delete("http://localhost:3003/records/");
     setAccounts([]);
     console.log(response.data);
   };

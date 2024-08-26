@@ -4,7 +4,7 @@ import { categories } from "../database/schema.js";
 export const getCategories = async (_, res) => {
   const categories = await db.query.categories.findMany({
     with: {
-      posts: true,
+      records: true,
     },
   });
 
@@ -12,11 +12,11 @@ export const getCategories = async (_, res) => {
 };
 
 export const createCategories = async (req, res) => {
-  const { id, name, description } = req.body;
+  const { id, name, description, icon, color } = req.body;
 
   const category = await db
     .insert(categories)
-    .values({ id, name, description })
+    .values({ id, name, description, icon, color })
     .returning();
 
   res.json(category);

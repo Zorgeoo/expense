@@ -61,7 +61,7 @@ export const RecordContainer = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios?.get("http://localhost:3003/posts", {
+      const response = await axios?.get("http://localhost:3003/records", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -72,8 +72,9 @@ export const RecordContainer = () => {
   }, []);
 
   const createAccount = async () => {
+    console.log(transInfo); // Check the data being sent
     const response = await axios.post(
-      "http://localhost:3003/posts",
+      "http://localhost:3003/records",
       transInfo,
       {
         headers: {
@@ -85,13 +86,17 @@ export const RecordContainer = () => {
   };
 
   const deleteAccount = async (id) => {
-    const response = await axios?.delete(`http://localhost:3003/posts${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await axios?.delete(
+      `http://localhost:3003/records/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     setAccounts(accounts.filter((account) => account.id !== id));
   };
+  console.log(accounts);
 
   useEffect(() => {
     const getData = async () => {
@@ -167,19 +172,21 @@ export const RecordContainer = () => {
     );
   };
 
-  // const filterAccountsByCategory = (accounts, selectedCategories) => {
-  //   return accounts
-  //     .filter((account) => !selectedCategories.includes(account.category.id))
-  //     .sort((a, b) => {
-  //       const dateA = new Date(a.date);
-  //       const dateB = new Date(b.date);
-  //       return dateB - dateA; // Ascending order; use dateB - dateA for descending order
-  //     });
-  // };
+  const filterAccountsByCategory = (accounts, selectedCategories) => {
+    return accounts
+      .filter((account) => !selectedCategories.includes(account.category.id))
+      .sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB - dateA; // Ascending order; use dateB - dateA for descending order
+      });
+  };
 
-  // useEffect(() => {
-  //   setFilteredAccounts(filterAccountsByCategory(accounts, selectedCategories));
-  // }, [accounts, selectedCategories]);
+  useEffect(() => {
+    setFilteredAccounts(filterAccountsByCategory(accounts, selectedCategories));
+  }, [accounts, selectedCategories]);
+
+  console.log(transInfo);
 
   return (
     <div className="bg-[#f6f6f6] h-svh py-6">

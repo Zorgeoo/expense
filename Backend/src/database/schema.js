@@ -9,36 +9,41 @@ export const users = pgTable("users", {
   password: varchar("password", { length: 256 }),
 });
 
-export const posts = pgTable("posts", {
+export const records = pgTable("records", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }),
   userId: integer("userId"), // integer deer length zaaj blohgui, zaahaar bolvol oor arga hereglej blno.
   amount: integer("amount"),
   description: varchar("description", { length: 256 }),
   categoryId: integer("categoryId"),
+  type: varchar("type", { length: 256 }),
+  date: varchar("date", { length: 256 }),
+  time: varchar("time", { length: 256 }),
 });
 
 export const categories = pgTable("categories", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }),
   description: varchar("description", { length: 256 }),
+  icon: varchar("icon", { length: 256 }),
+  color: varchar("color", { length: 256 }),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
-  posts: many(posts),
+  records: many(records),
 }));
 
-export const postsRelations = relations(posts, ({ one }) => ({
+export const recordsRelations = relations(records, ({ one }) => ({
   user: one(users, {
-    fields: [posts.userId],
+    fields: [records.userId],
     references: [users.id],
   }),
   category: one(categories, {
-    fields: [posts.categoryId],
+    fields: [records.categoryId],
     references: [categories.id],
   }),
 }));
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
-  posts: many(posts),
+  records: many(records),
 }));
