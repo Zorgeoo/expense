@@ -10,6 +10,8 @@ export const login = async (req, res) => {
   const user = await db.query.users.findFirst({
     where: and(eq(users.email, email), eq(users.password, password)),
   });
+  console.log(user);
+
   if (!user) {
     // If user not found, respond with 401 status code
     return res.status(401).json({ message: "Invalid credentials" });
@@ -18,7 +20,7 @@ export const login = async (req, res) => {
   // Create token for the authenticated user
   const token = jwt.sign(
     {
-      username: user.username,
+      username: user.name,
       email: user.email,
       id: user.id,
     },
@@ -29,7 +31,7 @@ export const login = async (req, res) => {
   return res.status(200).json({
     token,
     user: {
-      username: user.username,
+      username: user.name,
       email: user.email,
       id: user.id,
     },

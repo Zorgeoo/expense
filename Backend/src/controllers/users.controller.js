@@ -15,6 +15,7 @@ export const getMe = async (req, res) => {
   //User uuriin medeellee avah function
   try {
     const user = req.user;
+    console.log(user);
 
     res.json(user);
   } catch (error) {

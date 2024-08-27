@@ -83,7 +83,6 @@ export const AuthProvider = ({ children }) => {
 
     loadUser();
   }, []);
-
   console.log(user);
 
   useEffect(() => {

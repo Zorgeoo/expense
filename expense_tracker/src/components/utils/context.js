@@ -15,15 +15,14 @@ export const TransactionContextProvider = ({ children }) => {
     name: "",
     icon: null,
     color: null,
-    userId: null,
   });
 
   const [transInfo, setTransInfo] = useState({
     type: "exp",
     amount: null,
-    date: null,
+    date: "",
     time: "",
-    categoryId: "",
+    categoryId: null,
   });
 
   const getData = async () => {
@@ -34,9 +33,18 @@ export const TransactionContextProvider = ({ children }) => {
     });
     setAccounts(response.data);
   };
+  const getCategories = async () => {
+    const response = await axios?.get("http://localhost:3003/categories", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    setCategories(response.data);
+  };
 
   useEffect(() => {
     getData();
+    getCategories;
   }, []);
 
   return (
@@ -53,6 +61,7 @@ export const TransactionContextProvider = ({ children }) => {
         setAccounts,
         sortType,
         setSortType,
+        getCategories,
       }}
     >
       {children}

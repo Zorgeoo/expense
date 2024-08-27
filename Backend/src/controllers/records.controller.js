@@ -1,48 +1,71 @@
+import { eq } from "drizzle-orm";
 import { db } from "../database/index.js";
 import { records } from "../database/schema.js";
 
-export const getRecords = async (_, res) => {
-  const records = await db.query.records.findMany({
-    with: {
-      category: true,
-    },
-  });
-  res.json(records);
+export const getRecords = async (req, res) => {
+  try {
+    const Allrecords = await db.query.records.findMany({
+      with: {
+        category: true,
+      },
+      where: eq(records.userId, req.user.id),
+    });
+    res.json(Allrecords);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
 };
 
-export const deleteAccount = async (req, res) => {
+export const deleteRecord = async (req, res) => {
   try {
-    const filePath = path.join(__dirname, "..", "data", "accounts.json");
     const { id } = req.params;
 
-    const rawData = fs.readFileSync(filePath);
-    let accounts = JSON.parse(rawData);
+    const existingRecord = await db.query.records.findFirst({
+      where: eq(records.id, id),
+    });
 
-    accounts = accounts.filter((account) => account.id !== id);
+    if (!existingRecord) {
+      return res.status(404).json({ error: "Record not found" });
+    }
 
-    fs.writeFileSync(filePath, JSON.stringify(accounts, null, 2));
-    res.status(204).end();
+    await db.delete(records).where(eq(records.id, id));
+
+    res.json({
+      message: "Record successfully deleted",
+      deletedRecord: existingRecord,
+    });
   } catch (error) {
-    console.error("Error deleting account:", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 export const createRecords = async (req, res) => {
-  const { name, content, userId, amount, description, categoryId, date, time } =
-    req.body;
+  const {
+    name,
+    content,
+    userId,
+    amount,
+    description,
+    categoryId,
+    date,
+    time,
+    type,
+  } = req.body;
 
   const record = await db
     .insert(records)
     .values({
       name,
       content,
-      userId,
+      userId: req.user.id,
       amount,
       description,
       categoryId,
       date,
       time,
+      type,
     })
     .returning();
 

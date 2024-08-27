@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "./utils/AuthProvider";
 export const Navbar = () => {
   const { logOut, user } = useAuth();
+  console.log(user);
+
   return (
     <div className="w-[1440px] m-auto flex justify-between bg-white py-[16px]">
       <div className="flex items-center gap-[24px]">

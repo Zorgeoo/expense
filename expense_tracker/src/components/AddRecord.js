@@ -131,7 +131,7 @@ export const AddRecord = ({ title, addClick }) => {
                     <div>Category</div>
                     <Select
                       onValueChange={(event) => {
-                        setTransInfo({ ...transInfo, category: event });
+                        setTransInfo({ ...transInfo, categoryId: event.id });
                       }}
                     >
                       <SelectTrigger className="w-[180px]">

@@ -43,8 +43,6 @@ export const RecordContainer = () => {
     setSliderValue(newValues);
   };
 
-  console.log(user);
-
   const {
     transInfo,
     setTransInfo,
@@ -57,6 +55,7 @@ export const RecordContainer = () => {
     setAccounts,
     sortType,
     setSortType,
+    getCategories,
   } = useContext(TransactionContext);
 
   useEffect(() => {
@@ -72,7 +71,6 @@ export const RecordContainer = () => {
   }, []);
 
   const createAccount = async () => {
-    console.log(transInfo); // Check the data being sent
     const response = await axios.post(
       "http://localhost:3003/records",
       transInfo,
@@ -96,7 +94,6 @@ export const RecordContainer = () => {
     );
     setAccounts(accounts.filter((account) => account.id !== id));
   };
-  console.log(accounts);
 
   useEffect(() => {
     const getData = async () => {
@@ -109,7 +106,7 @@ export const RecordContainer = () => {
         setCategories(response.data);
       } catch (error) {}
     };
-    getData();
+    getCategories();
   }, []);
 
   const createCategory = async () => {
@@ -123,6 +120,7 @@ export const RecordContainer = () => {
       }
     );
     setCategories([...categories, response.data]);
+    getCategories();
   };
 
   const deleteCategory = async (id) => {
@@ -185,8 +183,7 @@ export const RecordContainer = () => {
   useEffect(() => {
     setFilteredAccounts(filterAccountsByCategory(accounts, selectedCategories));
   }, [accounts, selectedCategories]);
-
-  console.log(transInfo);
+  console.log(sortType);
 
   return (
     <div className="bg-[#f6f6f6] h-svh py-6">

@@ -27,6 +27,7 @@ export const categories = pgTable("categories", {
   description: varchar("description", { length: 256 }),
   icon: varchar("icon", { length: 256 }),
   color: varchar("color", { length: 256 }),
+  userId: integer("userId"),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
