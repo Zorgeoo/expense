@@ -3,6 +3,7 @@ import { users } from "../database/schema.js";
 
 export const getUsers = async (req, res) => {
   const users = await db.query.users.findMany({
+    //db-s users-tei related recordsiig hamt haruulah
     with: {
       records: true,
     },
@@ -15,8 +16,6 @@ export const getMe = async (req, res) => {
   //User uuriin medeellee avah function
   try {
     const user = req.user;
-    console.log(user);
-
     res.json(user);
   } catch (error) {
     console.error(error);

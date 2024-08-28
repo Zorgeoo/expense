@@ -35,16 +35,19 @@ export const usersRelations = relations(users, ({ many }) => ({
 }));
 
 export const recordsRelations = relations(records, ({ one }) => ({
+  //one to one or many to one
   user: one(users, {
-    fields: [records.userId],
-    references: [users.id],
+    // 1 record ni 1 user-tei l holbootoi bn
+    fields: [records.userId], //record-n userId fieldeer holbogdono
+    references: [users.id], //users.id-tai holbogdono
   }),
   category: one(categories, {
+    // 1 record ni 1 category-toi l holbootoi bn
     fields: [records.categoryId],
     references: [categories.id],
   }),
 }));
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
-  records: many(records),
+  records: many(records), //category olon recordstoi hamaaraltai baij bolno
 }));

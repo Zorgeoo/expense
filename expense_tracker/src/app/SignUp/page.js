@@ -6,7 +6,11 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 
 export const SignUp = () => {
+
+  const { register } = useAuth();
+
   const initialValues = {
+    //Ymr ymr medeelel back ruu shidehee todorhoilno
     userName: "",
     email: "",
     password: "",
@@ -14,6 +18,7 @@ export const SignUp = () => {
   };
 
   const validationSchema = yup.object({
+    //yup ashiglan ymr ymr utga avj bloh requirements-g oruulna
     userName: yup.string().required("Нэвтрэх нэрээ оруулна уу"),
     email: yup.string().email("Алдаатай имэйл").required("Имэйлээ оруулна уу"),
     password: yup
@@ -42,15 +47,12 @@ export const SignUp = () => {
       console.error("Registration error:", error);
     }
   };
+  
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
   });
-
-  console.log(formik.values);
-
-  const { register } = useAuth();
 
   return (
     <div className="h-screen w-screen">

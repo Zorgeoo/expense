@@ -15,25 +15,26 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await api.post("/auth/login", { email, password }); //Response-ruu medeellee yvulchihad res-s tokenoo avna.
+      const res = await api.post("/auth/login", { email, password }); //response-d postolson huseltiinhee hariug hadgalna /token,user medeeleltei irne/
       localStorage.setItem("token", res.data.token); //Localstorage deer token-r SETelne./browser deer hadgalagdsn/
       toast.success(res.data.message);
       setUser(res.data.user); //Res-s irsen useriin mdeellee user stated hadgalna.
       router.replace("/");
     } catch (error) {
-      toast.error(error.res?.data?.message || "Tiim account alga");
+      toast.error(error.res?.data?.message || "Тийм бүртгэл алга");
     }
   };
 
-  const register = async (username, email, password) => {
+  const register = async (name, email, password) => {
     try {
       await api.post("/auth/register", {
-        username,
+        //ene path-ruu edgeer medeeleltei REQ ilgeene
+        name,
         email,
         password,
       });
 
-      router.push("/LogIn");
+      router.push("/LogIn"); //REQ buren yvj duussani daraa login hesegruu yvulna
     } catch (err) {
       console.log(err);
       toast.error(err.response.data.message);
@@ -42,15 +43,12 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = async () => {
     try {
-      localStorage.removeItem("token");
+      localStorage.removeItem("token"); //token-oo localstorage dotroos ustgana.
 
-      // await router.push("/login");
-
-      toast.success("You have been logged out successfully.");
-      // await router.push("/login");
+      toast.success("Амжилттай гарлаашдээ хө");
     } catch (error) {
       console.error("Logout error:", error);
-      toast.error("LogOut hiihed aldaa garlaa");
+      toast.error("Гарч чадсангүй ээ чаавас");
     }
   };
 
@@ -71,19 +69,15 @@ export const AuthProvider = ({ children }) => {
         });
 
         setUser(res.data);
-        console.log(res.data);
       } catch (err) {
-        console.log(err);
         localStorage.removeItem("token");
-        toast.error("Your session has expired. Please login again.");
+        toast.error("Гарчдаг байшд кк");
       } finally {
         setIsReady(true);
       }
     };
-
     loadUser();
   }, []);
-  console.log(user);
 
   useEffect(() => {
     if (authPaths.includes(pathname)) return;

@@ -25,7 +25,7 @@ export const TransactionContextProvider = ({ children }) => {
     categoryId: null,
   });
 
-  const getData = async () => {
+  const getRecords = async () => {
     const response = await axios?.get("http://localhost:3003/records", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -43,7 +43,7 @@ export const TransactionContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getData();
+    getRecords();
     getCategories;
   }, []);
 
@@ -56,7 +56,7 @@ export const TransactionContextProvider = ({ children }) => {
         setCategoriez,
         categories,
         setCategories,
-        getData,
+        getRecords,
         accounts,
         setAccounts,
         sortType,

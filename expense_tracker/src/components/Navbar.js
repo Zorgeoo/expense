@@ -5,10 +5,14 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "./utils/AuthProvider";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
 export const Navbar = () => {
   const { logOut, user } = useAuth();
-  console.log(user);
-
   return (
     <div className="w-[1440px] m-auto flex justify-between bg-white py-[16px]">
       <div className="flex items-center gap-[24px]">
@@ -35,9 +39,24 @@ export const Navbar = () => {
       <div className="flex items-center gap-[24px] w-fit">
         <AddRecord title="+Record" />
         <div className="text-xl font-bold text-blue-600">{user?.username}</div>
-        <div className="h-[40px] w-[40px] overflow-hidden rounded-full">
-          <img src="/admin.jpeg" />
-        </div>
+        <HoverCard>
+          <HoverCardTrigger>
+            <div className="h-[40px] w-[40px] overflow-hidden rounded-full">
+              <img src="/admin.jpeg" />
+            </div>
+          </HoverCardTrigger>
+          <HoverCardContent className="flex flex-col px-10 justify-center text-blue-600">
+            <div className="flex gap-2">
+              <div>Username:</div>
+              <div className="font-semibold">{user?.username}</div>
+            </div>
+            <div className="flex gap-2">
+              <div>Email:</div>
+              <div className="font-semibold">{user?.email}</div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
+
         <Link href={"/LogIn"}>
           <div className=" text-blue-600 font-bold text-xl" onClick={logOut}>
             Log Out

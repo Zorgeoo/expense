@@ -27,7 +27,6 @@ import { useState, useEffect, useContext } from "react";
 import AddRecord from "./AddRecord";
 import AddCategory from "@/assets/AddCategory";
 import { TransactionContext } from "./utils/context";
-import { useAuth } from "./utils/AuthProvider";
 
 const maxValue = 1000;
 const minValue = 0;
@@ -36,7 +35,6 @@ export const RecordContainer = () => {
   const [sliderValue, setSliderValue] = useState([minValue, maxValue]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const { user } = useAuth();
   const handleNewValues = (index, newValue) => {
     const newValues = [...sliderValue];
     newValues[index] = Number(newValue);
@@ -48,7 +46,7 @@ export const RecordContainer = () => {
     setTransInfo,
     categoriez,
     setCategoriez,
-    getData,
+    getRecords,
     categories,
     setCategories,
     accounts,
@@ -59,15 +57,7 @@ export const RecordContainer = () => {
   } = useContext(TransactionContext);
 
   useEffect(() => {
-    const getData = async () => {
-      const response = await axios?.get("http://localhost:3003/records", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      setAccounts(response.data);
-    };
-    getData();
+    getRecords();
   }, []);
 
   const createAccount = async () => {
@@ -80,7 +70,7 @@ export const RecordContainer = () => {
         },
       }
     );
-    getData();
+    getRecords();
   };
 
   const deleteAccount = async (id) => {
@@ -93,19 +83,10 @@ export const RecordContainer = () => {
       }
     );
     setAccounts(accounts.filter((account) => account.id !== id));
+    getRecords();
   };
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3003/categories/", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        setCategories(response.data);
-      } catch (error) {}
-    };
     getCategories();
   }, []);
 
@@ -159,9 +140,6 @@ export const RecordContainer = () => {
     );
   };
 
-  useEffect(() => {
-    filterAccountsByType();
-  }, [accounts, sortType]);
   const handleCategoryChange = (categoryId) => {
     setSelectedCategories((prevSelected) =>
       prevSelected.includes(categoryId)
@@ -172,7 +150,7 @@ export const RecordContainer = () => {
 
   const filterAccountsByCategory = (accounts, selectedCategories) => {
     return accounts
-      .filter((account) => !selectedCategories.includes(account.category.id))
+      .filter((account) => !selectedCategories.includes(account.categoryId))
       .sort((a, b) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
@@ -181,9 +159,12 @@ export const RecordContainer = () => {
   };
 
   useEffect(() => {
+    filterAccountsByType();
+  }, [accounts, sortType]);
+
+  useEffect(() => {
     setFilteredAccounts(filterAccountsByCategory(accounts, selectedCategories));
   }, [accounts, selectedCategories]);
-  console.log(sortType);
 
   return (
     <div className="bg-[#f6f6f6] h-svh py-6">
