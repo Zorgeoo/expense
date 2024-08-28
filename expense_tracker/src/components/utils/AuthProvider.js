@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }) => {
         email,
         password,
       });
-
       router.push("/LogIn"); //REQ buren yvj duussani daraa login hesegruu yvulna
     } catch (err) {
       console.log(err);

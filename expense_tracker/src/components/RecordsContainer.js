@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { isToday, isYesterday } from "date-fns";
 import {
   Carousel,
   CarouselContent,
@@ -28,13 +29,14 @@ import AddRecord from "./AddRecord";
 import AddCategory from "@/assets/AddCategory";
 import { TransactionContext } from "./utils/context";
 
-const maxValue = 1000;
+const maxValue = 100000;
 const minValue = 0;
 
 export const RecordContainer = () => {
   const [sliderValue, setSliderValue] = useState([minValue, maxValue]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [sortOrder, setSortOrder] = useState("highest");
   const handleNewValues = (index, newValue) => {
     const newValues = [...sliderValue];
     newValues[index] = Number(newValue);
@@ -127,18 +129,86 @@ export const RecordContainer = () => {
 
   const totalAmount = calculateTotalAmount(accounts);
 
-  //Filtering and sorting
+  //CHATGPT FILTER
+  // const filterRecordsByDate = () => {
+  //   const today = new Date();
+  //   today.setHours(0, 0, 0, 0);
 
-  const filterAccountsByType = () => {
-    setFilteredAccounts(
-      accounts.filter((account) => {
-        if (sortType === "all") return true;
-        if (sortType === "inc" && account.type === "inc") return true;
-        if (sortType === "exp" && account.type === "exp") return true;
-        return false;
-      })
-    );
-  };
+  //   const yesterday = new Date(today);
+  //   yesterday.setDate(today.getDate() - 1);
+
+  //   const isToday = (date) => {
+  //     const recordDate = new Date(date);
+  //     return (
+  //       recordDate.getFullYear() === today.getFullYear() &&
+  //       recordDate.getMonth() === today.getMonth() &&
+  //       recordDate.getDate() === today.getDate()
+  //     );
+  //   };
+
+  //   const isYesterday = (date) => {
+  //     const recordDate = new Date(date);
+  //     return (
+  //       recordDate.getFullYear() === yesterday.getFullYear() &&
+  //       recordDate.getMonth() === yesterday.getMonth() &&
+  //       recordDate.getDate() === yesterday.getDate()
+  //     );
+  //   };
+
+  //   const todayRecords = accounts.filter(
+  //     (account) =>
+  //       isToday(account.date) &&
+  //       account.amount >= sliderValue[0] &&
+  //       account.amount <= sliderValue[1]
+  //   );
+
+  //   const yesterdayRecords = accounts.filter(
+  //     (account) =>
+  //       isYesterday(account.date) &&
+  //       account.amount >= sliderValue[0] &&
+  //       account.amount <= sliderValue[1]
+  //   );
+
+  //   const otherRecords = accounts.filter(
+  //     (account) =>
+  //       !isToday(account.date) &&
+  //       !isYesterday(account.date) &&
+  //       account.amount >= sliderValue[0] &&
+  //       account.amount <= sliderValue[1]
+  //   );
+
+  //   setFilteredAccounts({
+  //     today: todayRecords,
+  //     yesterday: yesterdayRecords,
+  //     others: otherRecords,
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   filterRecordsByDate();
+  // }, [accounts, sortType, selectedCategories, sliderValue, sortOrder]);
+  // console.log(filteredAccounts);
+
+  //CHATGPT FILTER
+
+  const todayRecords = filteredAccounts.filter((record) =>
+    isToday(record.date)
+  );
+
+  const yesterdayRecords = filteredAccounts.filter((record) =>
+    isYesterday(record.date)
+  );
+
+  const otherRecords = filteredAccounts.filter(
+    (record) => !isToday(record.date) && !isYesterday(record.date)
+  );
+
+  const records = [
+    { record: todayRecords, text: "Today" },
+    { record: yesterdayRecords, text: "Yesterday" },
+    { record: otherRecords, text: "Other" },
+  ];
+  console.log(records);
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategories((prevSelected) =>
@@ -148,23 +218,46 @@ export const RecordContainer = () => {
     );
   };
 
-  const filterAccountsByCategory = (accounts, selectedCategories) => {
-    return accounts
-      .filter((account) => !selectedCategories.includes(account.categoryId))
-      .sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-        return dateB - dateA; // Ascending order; use dateB - dateA for descending order
-      });
+  //Filtering and sorting
+
+  const filterAccountsByType = () => {
+    setFilteredAccounts(
+      accounts
+        .filter(
+          (account) =>
+            account.amount >= sliderValue[0] && account.amount <= sliderValue[1]
+        )
+        .filter((account) => {
+          if (sortType === "all") return true;
+          if (sortType === "inc" && account.type === "inc") return true;
+          if (sortType === "exp" && account.type === "exp") return true;
+          return false;
+        })
+        .filter((account) => !selectedCategories.includes(account.categoryId))
+        .sort((a, b) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          if (sortOrder === "highest") {
+            return b.amount - a.amount; // Highest to lowest
+          }
+          if (sortOrder === "lowest") {
+            return a.amount - b.amount; // Lowest to highest
+          }
+          if (sortOrder === "newest") {
+            return dateB - dateA; // Newest to oldest
+          }
+          if (sortOrder === "oldest") {
+            return dateA - dateB; // Oldest to newest
+          } else {
+            return 0;
+          }
+        })
+    );
   };
 
   useEffect(() => {
     filterAccountsByType();
-  }, [accounts, sortType]);
-
-  useEffect(() => {
-    setFilteredAccounts(filterAccountsByCategory(accounts, selectedCategories));
-  }, [accounts, selectedCategories]);
+  }, [accounts, sortType, selectedCategories, sliderValue, sortOrder]);
 
   return (
     <div className="bg-[#f6f6f6] h-svh py-6">
@@ -263,7 +356,7 @@ export const RecordContainer = () => {
                 max={maxValue}
                 min={minValue}
                 onValueChange={(newValues) => setSliderValue(newValues)}
-                step={1}
+                step={5000}
                 value={sliderValue}
               />
               <div className="flex justify-between">
@@ -287,11 +380,17 @@ export const RecordContainer = () => {
               </Carousel>
             </div>
             <div>
-              <Select>
+              <Select
+                onValueChange={(value) => {
+                  setSortOrder(value);
+                }}
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="highest">Highest to lowest</SelectItem>
+                  <SelectItem value="lowest">Lowest to highest</SelectItem>
                   <SelectItem value="newest">Newest first</SelectItem>
                   <SelectItem value="oldest">Oldest first</SelectItem>
                 </SelectContent>
@@ -316,9 +415,8 @@ export const RecordContainer = () => {
             </div>
           </div>
           <div className="pl-[30px]">
-            <div className="pb-3 pt-6 font-semibold">Today</div>
             <div className="flex flex-col gap-[12px] ">
-              {filteredAccounts.map((item, index) => {
+              {/* {filteredAccounts.map((item, index) => {
                 return (
                   <div>
                     <RecordCard
@@ -341,11 +439,47 @@ export const RecordContainer = () => {
                     </button>
                   </div>
                 );
+              })} */}
+              {records.map((group, index) => {
+                return (
+                  <div key={index}>
+                    <div>
+                      {group.text}
+                      <div>
+                        {group.record.map((record, i) => {
+                          return (
+                            <div key={i}>
+                              <div>
+                                <RecordCard
+                                  key={index}
+                                  amount={record.amount}
+                                  date={record.date}
+                                  time={record.time}
+                                  categ={record.category?.name}
+                                  icon={record.category?.icon}
+                                  color={record.category?.color}
+                                  type={record.type}
+                                />
+                                <button
+                                  onClick={() => {
+                                    deleteAccount(record.id);
+                                  }}
+                                  className="border"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
               })}
             </div>
           </div>
           <div className="pl-[30px]">
-            <div className="pb-3 pt-6 font-semibold">Yesterday</div>
             <div className="flex flex-col gap-[12px] "></div>
           </div>
         </div>
