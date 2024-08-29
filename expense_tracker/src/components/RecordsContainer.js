@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { FaEye } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { FaEyeSlash } from "react-icons/fa";
 import { isToday, isYesterday } from "date-fns";
 import {
@@ -37,11 +38,9 @@ export const RecordContainer = () => {
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState("highest");
-  const handleNewValues = (index, newValue) => {
-    const newValues = [...sliderValue];
-    newValues[index] = Number(newValue);
-    setSliderValue(newValues);
-  };
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [searchValue, setSearchValue] = useState("");
+  console.log(searchValue);
 
   const {
     transInfo,
@@ -58,9 +57,13 @@ export const RecordContainer = () => {
     getCategories,
   } = useContext(TransactionContext);
 
-  useEffect(() => {
-    getRecords();
-  }, []);
+  const handleNewValues = (index, newValue) => {
+    const newValues = [...sliderValue];
+    newValues[index] = Number(newValue);
+    setSliderValue(newValues);
+  };
+
+  //Account
 
   const createAccount = async () => {
     const response = await axios.post(
@@ -89,9 +92,10 @@ export const RecordContainer = () => {
   };
 
   useEffect(() => {
-    getCategories();
+    getRecords();
   }, []);
 
+  //Categories
   const createCategory = async () => {
     const response = await axios?.post(
       "http://localhost:3003/categories",
@@ -117,112 +121,24 @@ export const RecordContainer = () => {
     );
     setCategories(categories.filter((category) => category.id !== id));
   };
-
-  //Calculating net amount
-
-  const calculateTotalAmount = (accounts) => {
-    return accounts.reduce((total, account) => {
-      const amount = parseFloat(account.amount); // Convert the amount to a number
-      return total + (account.type === "exp" ? -amount : amount);
-    }, 0);
-  };
-
-  const totalAmount = calculateTotalAmount(accounts);
-
-  //CHATGPT FILTER
-  // const filterRecordsByDate = () => {
-  //   const today = new Date();
-  //   today.setHours(0, 0, 0, 0);
-
-  //   const yesterday = new Date(today);
-  //   yesterday.setDate(today.getDate() - 1);
-
-  //   const isToday = (date) => {
-  //     const recordDate = new Date(date);
-  //     return (
-  //       recordDate.getFullYear() === today.getFullYear() &&
-  //       recordDate.getMonth() === today.getMonth() &&
-  //       recordDate.getDate() === today.getDate()
-  //     );
-  //   };
-
-  //   const isYesterday = (date) => {
-  //     const recordDate = new Date(date);
-  //     return (
-  //       recordDate.getFullYear() === yesterday.getFullYear() &&
-  //       recordDate.getMonth() === yesterday.getMonth() &&
-  //       recordDate.getDate() === yesterday.getDate()
-  //     );
-  //   };
-
-  //   const todayRecords = accounts.filter(
-  //     (account) =>
-  //       isToday(account.date) &&
-  //       account.amount >= sliderValue[0] &&
-  //       account.amount <= sliderValue[1]
-  //   );
-
-  //   const yesterdayRecords = accounts.filter(
-  //     (account) =>
-  //       isYesterday(account.date) &&
-  //       account.amount >= sliderValue[0] &&
-  //       account.amount <= sliderValue[1]
-  //   );
-
-  //   const otherRecords = accounts.filter(
-  //     (account) =>
-  //       !isToday(account.date) &&
-  //       !isYesterday(account.date) &&
-  //       account.amount >= sliderValue[0] &&
-  //       account.amount <= sliderValue[1]
-  //   );
-
-  //   setFilteredAccounts({
-  //     today: todayRecords,
-  //     yesterday: yesterdayRecords,
-  //     others: otherRecords,
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   filterRecordsByDate();
-  // }, [accounts, sortType, selectedCategories, sliderValue, sortOrder]);
-  // console.log(filteredAccounts);
-
-  //CHATGPT FILTER
-
-  const todayRecords = filteredAccounts.filter((record) =>
-    isToday(record.date)
-  );
-
-  const yesterdayRecords = filteredAccounts.filter((record) =>
-    isYesterday(record.date)
-  );
-
-  const otherRecords = filteredAccounts.filter(
-    (record) => !isToday(record.date) && !isYesterday(record.date)
-  );
-
-  const records = [
-    { record: todayRecords, text: "Today" },
-    { record: yesterdayRecords, text: "Yesterday" },
-    { record: otherRecords, text: "Other" },
-  ];
-  console.log(records);
-
-  const handleCategoryChange = (categoryId) => {
-    setSelectedCategories((prevSelected) =>
-      prevSelected.includes(categoryId)
-        ? prevSelected.filter((id) => id !== categoryId)
-        : [...prevSelected, categoryId]
-    );
-  };
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   //Filtering and sorting
 
   const filterAccountsByType = () => {
     setFilteredAccounts(
       accounts
+        .filter(
+          (account) =>
+            account.category.name.toString().includes(searchValue) ||
+            account.amount.toString().includes(searchValue) ||
+            (account.description &&
+              account.description
+                .toLowerCase()
+                .includes(searchValue.toLowerCase()))
+        )
         .filter(
           (account) =>
             account.amount >= sliderValue[0] && account.amount <= sliderValue[1]
@@ -254,10 +170,53 @@ export const RecordContainer = () => {
         })
     );
   };
+  const todayRecords = filteredAccounts.filter((record) =>
+    isToday(record.date)
+  );
+
+  const yesterdayRecords = filteredAccounts.filter((record) =>
+    isYesterday(record.date)
+  );
+
+  const otherRecords = filteredAccounts.filter(
+    (record) => !isToday(record.date) && !isYesterday(record.date)
+  );
+
+  const records = [
+    { record: todayRecords, text: "Today" },
+    { record: yesterdayRecords, text: "Yesterday" },
+    { record: otherRecords, text: "Other" },
+  ];
+
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategories((prevSelected) =>
+      prevSelected.includes(categoryId)
+        ? prevSelected.filter((id) => id !== categoryId)
+        : [...prevSelected, categoryId]
+    );
+  };
 
   useEffect(() => {
     filterAccountsByType();
-  }, [accounts, sortType, selectedCategories, sliderValue, sortOrder]);
+  }, [
+    accounts,
+    sortType,
+    selectedCategories,
+    sliderValue,
+    sortOrder,
+    searchValue,
+  ]);
+
+  //Calculating total amounts
+
+  useEffect(() => {
+    const total = filteredAccounts.reduce(
+      (acc, record) =>
+        acc + (record.type === "exp" ? -record.amount : record.amount),
+      0
+    );
+    setTotalAmount(total);
+  }, [filteredAccounts]);
 
   return (
     <div className="bg-[#f6f6f6] h-svh py-6">
@@ -271,6 +230,10 @@ export const RecordContainer = () => {
                 placeholder="Search"
                 type="search"
                 className="block pl-[10px] rounded-sm"
+                value={searchValue}
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
+                }}
               ></input>
             </div>
             <div>
@@ -322,13 +285,13 @@ export const RecordContainer = () => {
                         <div className="py-[8px]">{item.name}</div>
                       </div>
                       <Arrow />
-                      <button
-                        onClick={() => {
-                          deleteCategory(item.id);
-                        }}
-                      >
-                        Delete
-                      </button>
+                      <div className="h-fit w-fit text-red-600 cursor-pointer">
+                        <MdDelete
+                          onClick={() => {
+                            deleteCategory(item.id);
+                          }}
+                        ></MdDelete>
+                      </div>
                     </div>
                   );
                 })}
@@ -416,36 +379,12 @@ export const RecordContainer = () => {
           </div>
           <div className="pl-[30px]">
             <div className="flex flex-col gap-[12px] ">
-              {/* {filteredAccounts.map((item, index) => {
-                return (
-                  <div>
-                    <RecordCard
-                      key={index}
-                      amount={item.amount}
-                      date={item.date}
-                      time={item.time}
-                      categ={item.category?.name}
-                      icon={item.category?.icon}
-                      color={item.category?.color}
-                      type={item.type}
-                    />
-                    <button
-                      onClick={() => {
-                        deleteAccount(item.id);
-                      }}
-                      className="border"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                );
-              })} */}
               {records.map((group, index) => {
                 return (
                   <div key={index}>
                     <div>
-                      {group.text}
-                      <div>
+                      <div className="font-bold my-4"> {group.text}</div>
+                      <div className="flex flex-col gap-[20px] ">
                         {group.record.map((record, i) => {
                           return (
                             <div key={i}>
@@ -459,15 +398,11 @@ export const RecordContainer = () => {
                                   icon={record.category?.icon}
                                   color={record.category?.color}
                                   type={record.type}
-                                />
-                                <button
-                                  onClick={() => {
+                                  description={record.description}
+                                  onKlick={() => {
                                     deleteAccount(record.id);
                                   }}
-                                  className="border"
-                                >
-                                  Delete
-                                </button>
+                                />
                               </div>
                             </div>
                           );
