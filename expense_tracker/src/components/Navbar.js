@@ -1,10 +1,12 @@
 "use client";
 import { Logo } from "@/assets/Logo";
 import AddRecord from "./AddRecord";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "./utils/AuthProvider";
+import { TransactionContext } from "./utils/context";
 import {
   HoverCard,
   HoverCardContent,
@@ -13,6 +15,19 @@ import {
 
 export const Navbar = () => {
   const { logOut, user } = useAuth();
+  const { transInfo, getRecords } = useContext(TransactionContext);
+  const createAccount = async () => {
+    const response = await axios.post(
+      "http://localhost:3003/records",
+      transInfo,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    getRecords();
+  };
   return (
     <div className="w-[1440px] m-auto flex justify-between bg-white py-[16px]">
       <div className="flex items-center gap-[24px]">
@@ -37,7 +52,7 @@ export const Navbar = () => {
         </Link>
       </div>
       <div className="flex items-center gap-[24px] w-fit">
-        <AddRecord title="+Record" />
+        <AddRecord title="+Record" addClick={createAccount} />
         <div className="text-xl font-bold text-blue-600">{user?.username}</div>
         <HoverCard>
           <HoverCardTrigger>

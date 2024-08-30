@@ -10,6 +10,7 @@ export const TransactionContextProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [sortType, setSortType] = useState("all");
+  const [filteredAccounts, setFilteredAccounts] = useState([]);
 
   const [categoriez, setCategoriez] = useState({
     name: "",
@@ -62,6 +63,8 @@ export const TransactionContextProvider = ({ children }) => {
         sortType,
         setSortType,
         getCategories,
+        filteredAccounts,
+        setFilteredAccounts,
       }}
     >
       {children}

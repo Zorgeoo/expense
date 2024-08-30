@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import {
   Select,
@@ -38,6 +38,7 @@ export const AddRecord = ({ title, addClick }) => {
     setTransInfo,
     categoriez,
     setCategoriez,
+    getCategories,
   } = useContext(TransactionContext);
 
   const formik = useFormik({
@@ -63,6 +64,10 @@ export const AddRecord = ({ title, addClick }) => {
     );
     setCategories([...categories, response.data]);
   };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <div className="flex">

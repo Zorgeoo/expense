@@ -2,7 +2,7 @@
 
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
+import { TransactionContext } from "@/components/utils/context";
 import {
   Card,
   CardContent,
@@ -17,32 +17,70 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+import { useContext } from "react";
 
 const chartConfig = {
   desktop: {
-    label: "Desktop",
+    label: "Expense",
     color: "hsl(var(--chart-1))",
   },
   mobile: {
-    label: "Mobile",
+    label: "Income",
     color: "hsl(var(--chart-2))",
   },
 };
 
 export function Chart() {
+  const { accounts } = useContext(TransactionContext);
+  console.log(accounts);
+
+  // const incomes = accounts.filter((account) => account.type === "inc");
+  // const expenses = accounts.filter((account) => account.type === "exp");
+
+  // console.log(expenses);
+  // console.log(incomes);
+
+  const getMonth = (date) => {
+    const accountDate = new Date(date);
+    return accountDate.getMonth(); // 0 for January, 11 for December
+  };
+
+  // Function to filter by type and month
+  const getTotalAmountByTypeAndMonth = (accounts, type, month) => {
+    return accounts
+      .filter(
+        (account) => account.type === type && getMonth(account.date) === month
+      )
+      .reduce((total, account) => total + account.amount, 0);
+  };
+  const MarchExpenses = getTotalAmountByTypeAndMonth(accounts, "exp", 2); // March (2 because January is 0)
+  const AprilExpenses = getTotalAmountByTypeAndMonth(accounts, "exp", 3); // April
+  const MayExpenses = getTotalAmountByTypeAndMonth(accounts, "exp", 4); // May
+  const JuneExpenses = getTotalAmountByTypeAndMonth(accounts, "exp", 5); // June
+  const JulyExpenses = getTotalAmountByTypeAndMonth(accounts, "exp", 6); // July
+  const AugustExpenses = getTotalAmountByTypeAndMonth(accounts, "exp", 7); // August
+
+  const MarchIncomes = getTotalAmountByTypeAndMonth(accounts, "inc", 2); // March income
+  const AprilIncomes = getTotalAmountByTypeAndMonth(accounts, "inc", 3); // April income
+  const MayIncomes = getTotalAmountByTypeAndMonth(accounts, "inc", 4); // May income
+  const JuneIncomes = getTotalAmountByTypeAndMonth(accounts, "inc", 5); // June income
+  const JulyIncomes = getTotalAmountByTypeAndMonth(accounts, "inc", 6); // July income
+  const AugustIncomes = getTotalAmountByTypeAndMonth(accounts, "inc", 7); // August income
+
+  const chartData = [
+    { month: "March", expense: MarchExpenses, income: MarchIncomes },
+    { month: "April", expense: AprilExpenses, income: AprilIncomes },
+    { month: "May", expense: MayExpenses, income: MayIncomes },
+    { month: "June", expense: JuneExpenses, income: JuneIncomes },
+    { month: "July", expense: JulyExpenses, income: JulyIncomes },
+    { month: "August", expense: AugustExpenses, income: AugustIncomes },
+  ];
+
   return (
     <Card className="h-fit">
       <CardHeader>
-        <CardTitle>Bar Chart - Multiple</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>INCOME CHART</CardTitle>
+        <CardDescription>March - August 2024</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -59,8 +97,8 @@ export function Chart() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="expense" fill="var(--color-desktop)" radius={4} />
+            <Bar dataKey="income" fill="var(--color-mobile)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>

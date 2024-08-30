@@ -35,12 +35,10 @@ const minValue = 0;
 
 export const RecordContainer = () => {
   const [sliderValue, setSliderValue] = useState([minValue, maxValue]);
-  const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState("highest");
   const [totalAmount, setTotalAmount] = useState(0);
   const [searchValue, setSearchValue] = useState("");
-  console.log(searchValue);
 
   const {
     transInfo,
@@ -55,6 +53,8 @@ export const RecordContainer = () => {
     sortType,
     setSortType,
     getCategories,
+    filteredAccounts,
+    setFilteredAccounts,
   } = useContext(TransactionContext);
 
   const handleNewValues = (index, newValue) => {

@@ -40,6 +40,7 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   const { name, email, password } = req.body; //REQ-s medeellee avna.
+  console.log(req.body);
 
   const user = await db.query.users.findFirst({
     //users-n data dund adilhan email-tei hereglegch bgaa esehig shalgana.
@@ -53,5 +54,5 @@ export const register = async (req, res) => {
     .values({ name, email, password }) //name,email,password nemne
     .returning(); //ergeed nemsen medeellee butsaana
 
-  res.json(newUser); //Shine useree RES-r butsaana.
+  res.json(newUser); //Shine useree RES-r butsaana
 };
