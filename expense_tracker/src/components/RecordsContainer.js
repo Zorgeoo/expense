@@ -29,7 +29,7 @@ import { useState, useEffect, useContext } from "react";
 import AddRecord from "./AddRecord";
 import AddCategory from "@/assets/AddCategory";
 import { TransactionContext } from "./utils/context";
-import { api } from "./library/ ";
+import { api } from "./library/axios";
 
 const maxValue = 100000;
 const minValue = 0;
