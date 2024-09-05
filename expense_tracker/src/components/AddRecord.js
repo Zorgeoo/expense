@@ -24,6 +24,7 @@ import AddCategory from "@/assets/AddCategory";
 import { useFormik } from "formik";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { TransactionContext } from "./utils/context";
+import { api } from "./library/axios";
 
 export const AddRecord = ({ title, addClick }) => {
   const [buttonColor, setButtonColor] = useState("expense");
@@ -53,8 +54,8 @@ export const AddRecord = ({ title, addClick }) => {
   });
 
   const createCategory = async () => {
-    const response = await axios.post(
-      "http://localhost:3003/categories",
+    const response = await api.post(
+      "/categories",
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

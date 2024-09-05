@@ -12,20 +12,17 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { api } from "./library/axios";
 
 export const Navbar = () => {
   const { logOut, user } = useAuth();
   const { transInfo, getRecords } = useContext(TransactionContext);
   const createAccount = async () => {
-    const response = await axios.post(
-      "http://localhost:3003/records",
-      transInfo,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await api.post("/records", transInfo, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     getRecords();
   };
   return (

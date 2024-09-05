@@ -3,6 +3,7 @@
 const { createContext, useState, useEffect } = require("react");
 
 import axios from "axios";
+import { api } from "../library/axios";
 
 export const TransactionContext = createContext(null);
 
@@ -27,7 +28,7 @@ export const TransactionContextProvider = ({ children }) => {
   });
 
   const getRecords = async () => {
-    const response = await axios?.get("http://localhost:3003/records", {
+    const response = await api.get("/records", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -35,7 +36,7 @@ export const TransactionContextProvider = ({ children }) => {
     setAccounts(response.data);
   };
   const getCategories = async () => {
-    const response = await axios?.get("http://localhost:3003/categories", {
+    const response = await api.get("/categories", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

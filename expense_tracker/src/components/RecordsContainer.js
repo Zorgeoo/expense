@@ -29,6 +29,7 @@ import { useState, useEffect, useContext } from "react";
 import AddRecord from "./AddRecord";
 import AddCategory from "@/assets/AddCategory";
 import { TransactionContext } from "./utils/context";
+import { api } from "./library/ ";
 
 const maxValue = 100000;
 const minValue = 0;
@@ -66,27 +67,20 @@ export const RecordContainer = () => {
   //Account
 
   const createAccount = async () => {
-    const response = await axios.post(
-      "http://localhost:3003/records",
-      transInfo,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await api.post("/records", transInfo, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     getRecords();
   };
 
   const deleteAccount = async (id) => {
-    const response = await axios?.delete(
-      `http://localhost:3003/records/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await api.delete(`/records/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     setAccounts(accounts.filter((account) => account.id !== id));
     getRecords();
   };
@@ -97,28 +91,21 @@ export const RecordContainer = () => {
 
   //Categories
   const createCategory = async () => {
-    const response = await axios?.post(
-      "http://localhost:3003/categories",
-      categoriez,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await api.post("/categories", categoriez, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     setCategories([...categories, response.data]);
     getCategories();
   };
 
   const deleteCategory = async (id) => {
-    const response = await axios?.delete(
-      `http://localhost:3003/categories/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await api.delete(`/categories/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     setCategories(categories.filter((category) => category.id !== id));
   };
   useEffect(() => {
