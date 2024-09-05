@@ -18,7 +18,7 @@ export const LogIn = () => {
         <div className="flex-1 m-auto flex flex-col items-center">
           <div className="flex h-fit items-center">
             <Logo width="40" />
-            <div>Geld</div>
+            <div>Gold</div>
           </div>
           <div className="flex flex-col items-center py-10">
             <div className="text-2xl font-semibold pb-2">Welcome back</div>
