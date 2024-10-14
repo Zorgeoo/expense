@@ -1,7 +1,6 @@
 "use client";
 
 import { Logo } from "@/assets/Logo";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuth } from "@/components/utils/AuthProvider";
 import { useState } from "react";

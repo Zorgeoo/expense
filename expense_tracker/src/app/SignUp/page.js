@@ -4,6 +4,7 @@ import { Logo } from "@/assets/Logo";
 import { AuthProvider, useAuth } from "@/components/utils/AuthProvider";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import Link from "next/link";
 
 export const SignUp = () => {
   const { register } = useAuth();
