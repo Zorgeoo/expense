@@ -5,7 +5,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 import { FaEye } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { FaEyeSlash } from "react-icons/fa";
@@ -206,7 +205,7 @@ export const RecordContainer = () => {
   }, [filteredAccounts]);
 
   return (
-    <div className="bg-[#f6f6f6] h-svh py-6">
+    <div className="bg-[#f6f6f6] h-fit py-6">
       <div className="w-[1440px] m-auto flex">
         <div className="flex py-[24px] px-[16px] w-[282px] ">
           <div className="flex flex-col gap-[24px] w-full ">
