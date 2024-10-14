@@ -6,7 +6,6 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 
 export const SignUp = () => {
-
   const { register } = useAuth();
 
   const initialValues = {
@@ -47,7 +46,7 @@ export const SignUp = () => {
       console.error("Registration error:", error);
     }
   };
-  
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -121,7 +120,9 @@ export const SignUp = () => {
           </div>
           <div className="flex gap-3 pt-10">
             <div>Already have account?</div>
-            <div className="text-[#0166FF] cursor-pointer">Log In</div>
+            <Link href=".LogIn">
+              <div className="text-[#0166FF] cursor-pointer">Log In</div>
+            </Link>
           </div>
         </div>
         <div className="flex-1 bg-[#0166FF] w-full h-full"></div>
