@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
 
     if (!isReady) return;
 
-    if (!user) router.replace("/LogIn");
+    // if (!user) router.replace("/LogIn");
   }, [pathname, user, isReady]);
 
   if (!isReady) return null;
