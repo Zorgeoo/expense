@@ -120,7 +120,7 @@ export const SignUp = () => {
           </div>
           <div className="flex gap-3 pt-10">
             <div>Already have account?</div>
-            <Link href=".LogIn">
+            <Link href="./LogIn">
               <div className="text-[#0166FF] cursor-pointer">Log In</div>
             </Link>
           </div>
