@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { api } from "../library/axios";
 
 const AuthContext = createContext();
-const authPaths = ["/LogIn", "/register"];
+const authPaths = ["/LogIn", "/SignUp"];
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
 
     if (!isReady) return;
 
-    // if (!user) router.replace("/LogIn");
+    if (!user) router.replace("/LogIn");
   }, [pathname, user, isReady]);
 
   if (!isReady) return null;
