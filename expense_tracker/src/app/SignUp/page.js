@@ -94,6 +94,7 @@ export const SignUp = () => {
             <input
               placeholder="Password"
               name="password"
+              type="password"
               value={formik.values.password}
               onChange={formik.handleChange}
               className="pl-4 border rounded-lg bg-[#F3F4F6] p-1"
@@ -104,6 +105,7 @@ export const SignUp = () => {
             <input
               placeholder="Re-password"
               name="confirm"
+              type="password"
               value={formik.values.confirm}
               onChange={formik.handleChange}
               className="pl-4 border rounded-lg bg-[#F3F4F6] p-1"
